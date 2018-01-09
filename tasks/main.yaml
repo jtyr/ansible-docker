@@ -1,0 +1,84 @@
+---
+
+- name: Test distribution
+  assert:
+    that: >
+      ansible_os_family == 'RedHat' or
+      ansible_os_family == 'Debian'
+
+- name: Create Docker YUM repo file
+  yum_repository:
+    name: docker
+    description: Docker YUM repo
+    baseurl: "{{ docker_yum_repo_url }}"
+    gpgkey: "{{ docker_yum_repo_key }}"
+  when: >
+    ansible_os_family == 'RedHat'
+  tags:
+    - docker_pkg
+
+- name: Install Docker GPG key
+  apt_key:
+    url: "{{ docker_apt_repo_key }}"
+  when: >
+    ansible_os_family == 'Debian'
+  tags:
+    - docker_pkg
+    - docker_aptrepo
+
+- name: Create Docker APT repo file
+  apt_repository:
+    repo: "{{ docker_apt_repo_string }}"
+  when: >
+    ansible_os_family == 'Debian'
+  tags:
+    - docker_pkg
+    - docker_aptrepo
+
+- name: Install Docker package
+  package:
+    name: "{{ docker_pkg }}"
+  notify:
+    - Restart Docker service
+  tags:
+    - docker_pkg
+
+- name: Create Docker default config file
+  template:
+    src: docker.j2
+    dest: "{{ docker_default_file }}"
+  notify:
+    - Restart Docker service
+  when: >
+    ansible_os_family == 'Debian' and
+    docker_default_config | length > 0
+  tags:
+    - docker_config
+    - docker_default_config
+
+- name: Create Docker daemon config file
+  template:
+    src: daemon.json.j2
+    dest: "{{ docker_daemon_file }}"
+  notify:
+    - Restart Docker service
+  when: >
+    docker_daemon_config | length > 0
+  tags:
+    - docker_config
+    - docker_daemon_config
+
+- name: Enable Docker service
+  service:
+    name: "{{ docker_service }}"
+    enabled: yes
+  tags:
+    - docker_service
+
+- name: Start Docker service
+  service:
+    name: "{{ docker_service }}"
+    state: started
+  register: docker_service_started
+  tags:
+    - docker_service

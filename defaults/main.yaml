@@ -1,0 +1,31 @@
+---
+
+# Package to be installed (explicit version can be specified here)
+docker_pkg: docker-ce
+
+# YUM repo GPG key
+docker_yum_repo_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+
+# YUM repo URL
+docker_yum_repo_url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/{{ ansible_distribution_major_version }}/$basearch/stable
+
+# GPG key for the APT repo
+docker_apt_repo_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+
+# APT repo string
+docker_apt_repo_string: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+
+# Name of the service
+docker_service: docker
+
+# Location of the Docker default config file
+docker_default_file: /etc/default/docker
+
+# Docker default config (see Examples in README for details)
+docker_default_config: {}
+
+# Location of the Docker daemon config file
+docker_daemon_file: /etc/docker/daemon.json
+
+# Docker daemon config (see Examples in README for details)
+docker_daemon_config: {}

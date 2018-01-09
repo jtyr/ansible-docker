@@ -1,0 +1,3 @@
+{{ ansible_managed | comment }}
+
+{{ docker_default_config | encode_ini(quote='"') }}

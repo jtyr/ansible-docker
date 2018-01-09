@@ -1,0 +1,9 @@
+---
+
+- name: Restart Docker service
+  service:
+    name: "{{ docker_service }}"
+    state: restarted
+  when: >
+    docker_service_started is not defined or
+    not docker_service_started.changed
