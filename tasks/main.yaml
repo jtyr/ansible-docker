@@ -82,3 +82,12 @@
   register: docker_service_started
   tags:
     - docker_service
+
+- name: Install Ansible dependecies for Docker
+  package:
+    name: "{{ item }}"
+  with_items: "{{ docker_deps }}"
+  when: >
+    docker_install_deps == true
+  tags:
+    - docker_deps

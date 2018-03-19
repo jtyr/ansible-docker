@@ -29,3 +29,18 @@ docker_daemon_file: /etc/docker/daemon.json
 
 # Docker daemon config (see Examples in README for details)
 docker_daemon_config: {}
+
+# Whether to install the Asible dependencies for Docker
+docker_install_deps: no
+
+# Default list of Asible dependencies for Docker
+docker_deps__default:
+  - "{{ 'python-docker-py' if ansible_os_family == 'RedHat' else 'python-docker' }}"
+
+# Custom list of Asible dependencies for Docker
+docker_deps__custom: []
+
+# Final list of Asible dependencies for Docker
+docker_deps: "{{
+  docker_deps__default +
+  docker_deps__custom }}"
