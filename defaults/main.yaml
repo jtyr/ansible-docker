@@ -3,17 +3,20 @@
 # Package to be installed (explicit version can be specified here)
 docker_pkg: docker-ce
 
+# Repo version (stable|edge|test|nightly)
+docker_repo_version: stable
+
 # YUM repo GPG key
 docker_yum_repo_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
 
 # YUM repo URL
-docker_yum_repo_url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/{{ ansible_distribution_major_version }}/$basearch/stable
+docker_yum_repo_url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/{{ ansible_distribution_major_version }}/$basearch/{{ docker_repo_version }}
 
 # GPG key for the APT repo
 docker_apt_repo_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
 
 # APT repo string
-docker_apt_repo_string: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+docker_apt_repo_string: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_repo_version }}
 
 # Name of the service
 docker_service: docker
