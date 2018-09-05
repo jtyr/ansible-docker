@@ -4,6 +4,20 @@
   service:
     name: "{{ docker_service }}"
     state: restarted
+  register: docker_service_restarted
   when: >
     docker_service_started is not defined or
     not docker_service_started.changed
+
+- name: Reload Docker service
+  service:
+    name: "{{ docker_service }}"
+    state: reloaded
+  when: >
+    (
+      docker_service_started is not defined or
+      not docker_service_started.changed
+    ) and (
+      docker_service_restarted is not defined or
+      not docker_service_restarted.changed
+    )
