@@ -56,6 +56,17 @@
     - docker_config
     - docker_default_config
 
+- name: Make sure the Docker config directory exists
+  file:
+    path: "{{ docker_daemon_dir }}"
+    state: directory
+    owner: "{{ docker_daemon_dir_owner }}"
+    group: "{{ docker_daemon_dir_group }}"
+    mode: "{{ docker_daemon_dir_mode }}"
+  tags:
+    - docker_config
+    - docker_daemon_config
+
 - name: Create Docker daemon config file
   template:
     src: daemon.json.j2

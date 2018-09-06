@@ -27,8 +27,14 @@ docker_default_file: /etc/default/docker
 # Docker default config (see Examples in README for details)
 docker_default_config: {}
 
+# Docker conf dir path and attributes
+docker_daemon_dir: /etc/docker
+docker_daemon_dir_owner: root
+docker_daemon_dir_group: root
+docker_daemon_dir_mode: "0700"
+
 # Location of the Docker daemon config file
-docker_daemon_file: /etc/docker/daemon.json
+docker_daemon_file: "{{ docker_daemon_dir }}/daemon.json"
 
 # Docker daemon config (see Examples in README for details)
 docker_daemon_config: {}
