@@ -26,11 +26,14 @@ Examples
 - name: Configure default file (Ubuntu/Debian only)
   hosts: all
   vars:
+    # Content of the default file
     docker_default_config:
       # Location of Docker binary
       DOCKERD: /usr/local/bin/dockerd
       # The daemon startup options
       DOCKER_OPTSL: --dns 8.8.8.8 --dns 8.8.4.4
+    # Install Python support for Docker required for Ansible to run containers
+    docker_python_pkg: python-docker
   roles:
     - docker
 
@@ -59,6 +62,12 @@ Variables used by the role:
 ```yaml
 # Package to be installed (explicit version can be specified here)
 docker_pkg: docker-ce
+
+# In order to run Docker containers via Ansible, we need to add Python package
+# to support the Ansible module. On CentOS/RHEL use python-docker-py, on
+# Ubuntu/Debian use python-docker.
+# (null means it won't be installed)
+docker_python_pkg: null
 
 # Repo version (stable|edge|test|nightly)
 docker_repo_version: stable

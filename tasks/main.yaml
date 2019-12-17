@@ -43,6 +43,14 @@
   tags:
     - docker_pkg
 
+- name: Install Python support for Docker
+  package:
+    name: "{{ docker_python_pkg }}"
+  when: >
+    docker_python_pkg != None
+  tags:
+    - docker_pkg
+
 - name: Create Docker default config file
   template:
     src: docker.j2
